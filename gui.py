@@ -12,7 +12,7 @@ def show_movie_details(movie):
     # Yeni pencere (Popup)
     details_window = tk.Toplevel(root)
     details_window.title(movie["name"])
-    details_window.geometry("600x400")
+    details_window.geometry("600x900")
     details_window.configure(bg="#1c1c1c")
 
     # Film Bannerı
@@ -44,6 +44,7 @@ def show_movie_details(movie):
     if "reviews" in movie and movie["reviews"]:
 
         for review in movie["reviews"]:
+            print("asd")
             review_text = f"Puan: {
                 review['rating']}/5\nYorum: {review['comment']}"
             review_label = tk.Label(details_window, text=review_text, bg="#2e2e2e", fg="white",
@@ -163,29 +164,34 @@ def open_review_movies():
         try:
             rating = int(rating_entry.get())
             if 1 <= rating <= 5:
-                # Seçilen film indeksini al
-                index = movie_listbox.curselection()[0]
-                global movies
-                movie = movies[index]
+                # Check if a movie is selected
+                selected_index = movie_listbox.curselection()
+                if selected_index:
+                    # Seçilen film indeksini al
+                    index = selected_index[0]
+                    global movies
+                    movie = movies[index]
 
-                # Kullanıcı bilgilerini ve yorumu al
-                comment = comment_entry.get("1.0", tk.END).strip()
+                    # Kullanıcı bilgilerini ve yorumu al
+                    comment = comment_entry.get("1.0", tk.END).strip()
 
-                # Yeni yorumu oluştur ve filmin "reviews" alanına ekle
-                new_review = {
-                    "rating": rating,
-                    "comment": comment
-                }
-                movie["reviews"].append(new_review)
+                    # Yeni yorumu oluştur ve filmin "reviews" alanına ekle
+                    new_review = {
+                        "rating": rating,
+                        "comment": comment
+                    }
+                    movie["reviews"].append(new_review)
 
-                # JSON dosyasını güncelle
-                save_movies(movies)
+                    # JSON dosyasını güncelle
+                    save_movies(movies)
 
-                # Başarı mesajı ve pencereyi kapatma
-                messagebox.showinfo("Başarılı", "Değerlendirme kaydedildi!")
-                review_window.destroy()
-                movies = load_movies_from_json(jsonfile)
-
+                    # Başarı mesajı ve pencereyi kapatma
+                    messagebox.showinfo(
+                        "Başarılı", "Değerlendirme kaydedildi!")
+                    review_window.destroy()
+                    movies = load_movies_from_json(jsonfile)
+                else:
+                    messagebox.showerror("Hata", "Lütfen bir film seçin.")
             else:
                 messagebox.showerror(
                     "Hata", "Puan 1 ile 5 arasında olmalıdır!")
@@ -378,7 +384,9 @@ def open_movie_manager():
     for movie in movies:
         movie_listbox.insert(tk.END, f"{movie['name']} ({movie['status']})")
 
+    selected = -1
     # İşlevler
+
     def add_movie(name, status):
         # Kart çerçevesi
         if name:
@@ -397,6 +405,14 @@ def open_movie_manager():
             movie_listbox.delete(index)
             update_watchlist()  # Ana sayfayı güncelle
 
+    def search_movie(name):
+        query = name.lower()
+        movie_listbox.delete(0, tk.END)
+        for movie in movies:
+            if query in movie["name"].lower():
+                movie_listbox.insert(
+                    tk.END, f"{movie['name']} ({movie['status']})")
+
     def update_movie(selection, name, status):
         if selection and name:
             index = selection[0]
@@ -406,17 +422,9 @@ def open_movie_manager():
             movie_listbox.delete(index)
             movie_listbox.insert(index, f"{name} ({status})")
             update_watchlist()  # Ana sayfayı güncelle
-
-    def search_movie(name):
-        query = name.lower()
-        movie_listbox.delete(0, tk.END)
-        for movie in movies:
-            if query in movie["name"].lower():
-                movie_listbox.insert(
-                    tk.END, f"{movie['name']} ({movie['status']})")
+            movie_listbox.selection_set(index)  # Odaklanma kaybolmasın
 
     def on_movie_select(event):
-        """Listeden bir film seçildiğinde giriş alanlarını doldurur."""
         try:
             selection = movie_listbox.curselection()
             if selection:
@@ -427,6 +435,15 @@ def open_movie_manager():
                 status_var.set(selected_movie["status"])  # Durumu seç
         except IndexError:
             pass
+
+    def on_status_change(*args):
+        selection = movie_listbox.curselection()
+        if selection:
+            update_movie(selection, movie_name.get(), status_var.get())
+
+
+# Combobox değişikliklerini izlemek için Trace ekleniyor
+    status_var.trace_add("write", on_status_change)
 
     movie_listbox.bind("<<ListboxSelect>>", on_movie_select)
 

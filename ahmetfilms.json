@@ -1,1 +1,18 @@
-[]
+[
+    {
+        "name": "afsdfes",
+        "status": "\u0130zleniyor",
+        "banner": "image.png",
+        "reviews": [
+            {
+                "rating": 2,
+                "comment": "afdasfd"
+            },
+            {
+                "rating": 3,
+                "comment": "hdghf"
+            }
+        ],
+        "description": ""
+    }
+]
