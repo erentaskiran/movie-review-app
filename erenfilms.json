@@ -1,0 +1,35 @@
+[
+    {
+        "name": "adfs",
+        "status": "\u0130zlenecek",
+        "banner": "image.png",
+        "reviews": [
+            {
+                "rating": 3,
+                "comment": "asdfdsaf"
+            }
+        ],
+        "description": ""
+    },
+    {
+        "name": "\u015fklkl",
+        "status": "\u0130zlenecek",
+        "banner": "image.png",
+        "reviews": [],
+        "description": ""
+    },
+    {
+        "name": "\u015fklkl",
+        "status": "\u0130zlendi",
+        "banner": "image.png",
+        "reviews": [],
+        "description": ""
+    },
+    {
+        "name": "\u015fklkl",
+        "status": "\u0130zlendi",
+        "banner": "image.png",
+        "reviews": [],
+        "description": ""
+    }
+]

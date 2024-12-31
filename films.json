@@ -1,0 +1,50 @@
+[
+    {
+        "name": "asd",
+        "status": "\u0130zlendi",
+        "banner": "image.png",
+        "reviews": [
+            {
+                "rating": 2,
+                "comment": "afssdf"
+            }
+        ],
+        "description": ""
+    },
+    {
+        "name": "asdf",
+        "status": "\u0130zlenecek",
+        "banner": "image.png",
+        "reviews": [
+            {
+                "rating": 2,
+                "comment": "asfdafsd"
+            }
+        ],
+        "description": ""
+    },
+    {
+        "name": "selam",
+        "status": "\u0130zlendi",
+        "banner": "image.png",
+        "reviews": [
+            {
+                "rating": 2,
+                "comment": "asglljkgafs"
+            }
+        ],
+        "description": ""
+    },
+    {
+        "name": "yenitest",
+        "status": "\u0130zlendi",
+        "banner": "image.png",
+        "reviews": [
+            {
+                "rating": 3,
+                "comment": "guzlmis"
+            }
+        ],
+        "description": ""
+    }
+]
