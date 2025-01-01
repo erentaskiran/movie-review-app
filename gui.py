@@ -5,7 +5,7 @@ import json
 import os
 import requests
 
-TMDB_API_KEY = "7023f479f77676cdd9832c646daaf17b"
+TMDB_API_KEY = ""
 TMDB_BASE_URL = "https://api.themoviedb.org/3"
 jsonfile = "films.json"
 USERS_FILE = "users.json"
@@ -358,10 +358,12 @@ def open_movie_manager():
                 release_date = movie.get("release_date", "Bilinmiyor")
                 banner = movie.get("poster_path", "")
                 description = movie.get("overview", "")
-                create_tmdb_result_row(i, title, release_date, banner, description)
+                create_tmdb_result_row(
+                    i, title, release_date, banner, description)
 
         except requests.RequestException as e:
-            messagebox.showerror("Hata", f"TMDb isteğinde bir hata oluştu: {e}")
+            messagebox.showerror(
+                "Hata", f"TMDb isteğinde bir hata oluştu: {e}")
 
     def create_tmdb_result_row(index, title, release_date, banner, description):
         frame = tk.Frame(tmdb_results_frame, bg="#1c1c1c")
@@ -497,7 +499,8 @@ def open_movie_manager():
             save_movies(movies)
             # Listbox'taki öğeyi güncelle
             movie_listbox.delete(index)
-            movie_listbox.insert(index, f"{selected_movie['name']} ({selected_movie['status']})")
+            movie_listbox.insert(
+                index, f"{selected_movie['name']} ({selected_movie['status']})")
             movie_listbox.selection_set(index)
             update_watchlist()
 
@@ -592,11 +595,11 @@ def LoginRegisterPage():
         except json.JSONDecodeError:
             return {}
 
-    kullanici_bilgileri = load_users()
 
     def girisyap():
         kullanici_adi = kullanici_adi_entry.get()
         sifre = sifre_entry.get()
+        kullanici_bilgileri=load_users()
 
         if kullanici_adi in kullanici_bilgileri and kullanici_bilgileri[kullanici_adi] == sifre:
             global jsonfile, movies
