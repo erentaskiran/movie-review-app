@@ -5,7 +5,7 @@ import json
 import os
 import requests
 
-TMDB_API_KEY = ""
+TMDB_API_KEY = "7023f479f77676cdd9832c646daaf17b"
 TMDB_BASE_URL = "https://api.themoviedb.org/3"
 jsonfile = "films.json"
 USERS_FILE = "users.json"
@@ -45,10 +45,12 @@ def show_movie_details(movie):
 
     if "reviews" in movie and movie["reviews"]:
         for review in movie["reviews"]:
-            review_frame = tk.Frame(details_window, bg="#2e2e2e", padx=10, pady=10)
+            review_frame = tk.Frame(
+                details_window, bg="#2e2e2e", padx=10, pady=10)
             review_frame.pack(pady=5, fill=tk.BOTH, expand=True)
 
-            review_text = f"Puan: {review['rating']}/5\nYorum: {review['comment']}"
+            review_text = f"Puan: {
+                review['rating']}/5\nYorum: {review['comment']}"
             review_label = tk.Label(review_frame, text=review_text, bg="#2e2e2e", fg="white",
                                     font=("Arial", 12), wraplength=500, justify="left")
             review_label.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
@@ -85,6 +87,7 @@ movies = load_movies_from_json(jsonfile)
 def save_movies(movies):
     with open(jsonfile, "w") as file:
         json.dump(movies, file, indent=4)
+    movies = load_movies_from_json(jsonfile)
 
 
 def open_review_movies():
@@ -292,6 +295,7 @@ def open_movie_manager():
                            bg="#1c1c1c", fg="white", font=("Arial", 16, "bold"))
     title_label.pack(pady=10)
 
+    # Arama çerçevesi
     search_frame = tk.Frame(manager_window, bg="#2e2e2e")
     search_frame.pack(pady=10, padx=10, fill=tk.X)
 
@@ -302,10 +306,93 @@ def open_movie_manager():
     search_entry = tk.Entry(search_frame, font=("Arial", 12), width=40)
     search_entry.pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
 
-    search_button = tk.Button(search_frame, text="Ara", bg="#4b4b4b", fg="black", font=("Arial", 10, "bold"),
-                              command=lambda: search_movie(search_entry.get()))
+    search_button = tk.Button(search_frame, text="TMDb Ara", bg="#4b4b4b", fg="black", font=("Arial", 10, "bold"),
+                              command=lambda: search_tmdb(search_entry.get()))
     search_button.pack(side=tk.LEFT, padx=5)
 
+    # TMDb sonuçlarını göstermek için bir çerçeve
+    tmdb_frame = tk.Frame(manager_window, bg="#1c1c1c")
+    tmdb_frame.pack(pady=10, padx=10, fill=tk.X)
+
+    tmdb_results_label = tk.Label(tmdb_frame, text="TMDb Sonuçları:",
+                                  bg="#1c1c1c", fg="white", font=("Arial", 12))
+    tmdb_results_label.pack(anchor="w", padx=5, pady=5)
+
+    tmdb_results_frame = tk.Frame(tmdb_frame, bg="#1c1c1c")
+    tmdb_results_frame.pack(fill=tk.X)
+
+    # TMDb arama sonuçlarını göstermek için bir liste
+    tmdb_results = []
+
+    def search_tmdb(query):
+        query = query.strip()
+        if not query:
+            messagebox.showwarning("Uyarı", "Arama kutusunu boş bırakmayın!")
+            return
+
+        url = f"https://api.themoviedb.org/3/search/movie"
+        params = {
+            "api_key": TMDB_API_KEY,
+            "query": query,
+            "language": "tr-TR",
+            "page": 1
+        }
+
+        try:
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+            results = response.json().get("results", [])
+
+            if not results:
+                tmdb_results_label.config(text="Sonuç bulunamadı.")
+                return
+
+            for i, movie in enumerate(results[:3]):  # İlk 3 sonucu göster
+                title = movie.get("title", "Bilinmiyor")
+                release_date = movie.get("release_date", "Bilinmiyor")
+                banner = movie.get("poster_path", "")
+                description = movie.get("overview", "")
+                create_tmdb_result_row(
+                    i, title, release_date, banner, description)
+
+        except requests.RequestException as e:
+            messagebox.showerror(
+                "Hata", f"TMDb isteğinde bir hata oluştu: {e}")
+
+    def create_tmdb_result_row(index, title, release_date, banner, description):
+        frame = tk.Frame(tmdb_results_frame, bg="#1c1c1c")
+        frame.pack(fill=tk.X, pady=5)
+
+        label = tk.Label(frame, text=f"{title} ({release_date})", bg="#1c1c1c",
+                         fg="white", font=("Arial", 12), anchor="w")
+        label.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+
+        button = tk.Button(frame, text="Ekle", bg="#4b4b4b", fg="black", font=("Arial", 10, "bold"),
+                           command=lambda: add_tmdb_movie(title, banner, description))
+        button.pack(side=tk.RIGHT, padx=5)
+
+        tmdb_results.append(frame)
+
+    def add_tmdb_movie(name, banner, description):
+        status = "İzlenecek"
+        # TMDb banner URL'si tam olarak erişilebilir hale getirmek için tabanı ekleyin.
+        base_url = "https://image.tmdb.org/t/p/w500"
+        banner_url = f"{base_url}{banner}" if banner else ""
+
+        movies.append({
+            "name": name,
+            "status": status,
+            "banner": banner_url,
+            "reviews": [],
+            "description": description
+        })
+
+        save_movies(movies)
+        movie_listbox.insert(tk.END, f"{name} ({status})")
+        update_watchlist()
+        messagebox.showinfo("Başarılı", f"{name} başarıyla eklendi!")
+
+    # Film/dizi yönetim çerçevesi
     movie_frame = tk.Frame(manager_window, bg="#1c1c1c")
     movie_frame.pack(pady=10, padx=10, fill=tk.X)
 
@@ -346,8 +433,8 @@ def open_movie_manager():
                           bg="#1c1c1c", fg="white", font=("Arial", 12))
     list_label.pack(anchor="w", padx=5, pady=5)
 
-    movie_listbox = tk.Listbox(list_frame, font=(
-        "Arial", 12), bg="#2e2e2e", fg="white", selectbackground="#4b4b4b")
+    movie_listbox = tk.Listbox(list_frame, font=("Arial", 12), bg="#2e2e2e",
+                               fg="white", selectbackground="#4b4b4b")
     movie_listbox.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
     button_frame = tk.Frame(manager_window, bg="#1c1c1c")
@@ -363,8 +450,8 @@ def open_movie_manager():
     delete_button.pack(side=tk.LEFT, padx=5)
 
     update_button = tk.Button(button_frame, text="Güncelle", bg="#4b4b4b", fg="black", font=("Arial", 10, "bold"),
-                              command=lambda: update_movie(movie_listbox.curselection(), movie_name.get(), status_var.get(),
-                                                           banner_entry.get(), description_entry.get()))
+                              command=lambda: update_movie(movie_listbox.curselection(), movie_name.get(),
+                                                           status_var.get(), banner_entry.get(), description_entry.get()))
     update_button.pack(side=tk.LEFT, padx=5)
 
     for movie in movies:
@@ -379,7 +466,6 @@ def open_movie_manager():
             movie_name.delete(0, tk.END)
             banner_entry.delete(0, tk.END)
             description_entry.delete(0, tk.END)
-            update_watchlist()
 
     def delete_movie(selection):
         if selection:
@@ -387,25 +473,15 @@ def open_movie_manager():
             del movies[index]
             save_movies(movies)
             movie_listbox.delete(index)
-            update_watchlist()
-
-    def search_movie(name):
-        query = name.lower()
-        movie_listbox.delete(0, tk.END)
-        for movie in movies:
-            if query in movie["name"].lower():
-                movie_listbox.insert(
-                    tk.END, f"{movie['name']} ({movie['status']})")
 
     def update_movie(selection, name, status, bannerurl, description):
         if selection and name:
             index = selection[0]
-            movies[index] = {"name": name, "status": status,
-                             "banner": bannerurl, "reviews": movies[index]["reviews"], "description": description}
+            movies[index] = {"name": name, "status": status, "banner": bannerurl,
+                             "reviews": movies[index]["reviews"], "description": description}
             save_movies(movies)
             movie_listbox.delete(index)
             movie_listbox.insert(index, f"{name} ({status})")
-            update_watchlist()
             movie_listbox.selection_set(index)
 
     def on_movie_select(event):
@@ -423,14 +499,6 @@ def open_movie_manager():
                 status_var.set(selected_movie["status"])
         except IndexError:
             pass
-
-    def on_status_change(*args):
-        selection = movie_listbox.curselection()
-        if selection:
-            update_movie(selection, movie_name.get(), status_var.get(),
-                         banner_entry.get(), description_entry.get())
-
-    status_var.trace_add("write", on_status_change)
 
     movie_listbox.bind("<<ListboxSelect>>", on_movie_select)
 

@@ -53,18 +53,6 @@
         "description": "Kuzey Kutbu'nun G\u00fcvenlik \u015eefi (Dwayne Johnson), Noel'i kurtarmak i\u00e7in d\u00fcnyan\u0131n en k\u00f6t\u00fc \u015f\u00f6hretli \u00f6d\u00fcl avc\u0131s\u0131yla (Chris Evans) d\u00fcnyay\u0131 dola\u015facaklar\u0131 aksiyon dolu bir g\u00f6revde bir araya gelmek zorunda kal\u0131r."
     },
     {
-        "name": "Dirty Angels",
-        "description": "",
-        "banner": "https://image.tmdb.org/t/p/w500/3O3qSGmjRGc10hMwFul8WDxKE5t.jpg",
-        "reviews": [
-            {
-                "rating": 4,
-                "comment": "Harika bir film!"
-            }
-        ],
-        "status": "\u0130zlenecek"
-    },
-    {
         "name": "Deadpool & Wolverine",
         "description": "Wade Wilson\u2019\u0131n bir paral\u0131 asker olarak ge\u00e7irdi\u011fi g\u00fcnler ve Deadpool kimli\u011fi art\u0131k geride kalm\u0131\u015ft\u0131r. O \u015fimdi sivil hayatta varl\u0131k g\u00f6stermek i\u00e7in \u00e7abalar. Wade, yeni hayat\u0131na al\u0131\u015fmaya \u00e7al\u0131\u015f\u0131rken, b\u00fcy\u00fck bir tehlike ile kar\u015f\u0131 kar\u015f\u0131ya kal\u0131nca harekete ge\u00e7mek zorunda kal\u0131r. Ancak bu tehlike ile tek ba\u015f\u0131na ba\u015f etmesi zordur. Bu y\u00fczden Wade en az kendisi kadar isteksiz olan Wolverine'i yard\u0131m etmesi i\u00e7in ikna etmeye \u00e7al\u0131\u015f\u0131r.",
         "banner": "https://image.tmdb.org/t/p/w500/c3BuUXYjvGcKwZYKZsYjMDFQr1D.jpg",
@@ -75,5 +63,36 @@
             }
         ],
         "status": "\u0130zlenecek"
+    },
+    {
+        "name": "Terrifier 3",
+        "description": "Miles Kasabas\u0131 sakinleri Noel ruhuyla y\u0131l\u0131n en huzurlu gecesini kutlamaya haz\u0131rlan\u0131rken, Art the Clown geri d\u00f6n\u00fcyor. Sessiz ve karanl\u0131k bir Noel Arifesi, Art\u2019\u0131n kana susam\u0131\u015fl\u0131\u011f\u0131yla kabusa d\u00f6n\u00fc\u015f\u00fcyor. Yeni hedefler ve daha ac\u0131mas\u0131z planlarla geri d\u00f6nen Art, kasabay\u0131 cehenneme \u00e7evirmek i\u00e7in yemin ediyor.",
+        "banner": "https://image.tmdb.org/t/p/w500/ju10W5gl3PPK3b7TjEmVOZap51I.jpg",
+        "reviews": [
+            {
+                "rating": 4,
+                "comment": "Harika bir film!"
+            }
+        ],
+        "status": "\u0130zlenecek"
+    },
+    {
+        "name": "Alien: Romulus",
+        "status": "\u0130zlenecek",
+        "banner": "https://image.tmdb.org/t/p/w500/2uSWRTtCG336nuBiG8jOTEUKSy8.jpg",
+        "reviews": [
+            {
+                "rating": 2,
+                "comment": "asdfasfd"
+            }
+        ],
+        "description": "Uzay s\u00f6m\u00fcrgecileri Rain, Andy, Tyler, Kay, Bjorn ve Navarro, g\u00f6r\u00fcn\u00fc\u015fte tamamen terk edilmi\u015f gibi g\u00f6z\u00fcken bir uzay istasyonunda bir \u015feyler bulma umuduyla arama yapar. Ancak onlar\u0131n ger\u00e7ekte neler olup bitti\u011fine dair hi\u00e7bir fikri yoktur. \u00c7ok ge\u00e7meden grup, d\u00fcnyan\u0131n en korkutucu ya\u015fam formu ile kar\u015f\u0131la\u015facakt\u0131r."
+    },
+    {
+        "name": "Sad\u0131k Ahmet",
+        "status": "\u0130zlenecek",
+        "banner": "https://image.tmdb.org/t/p/w500/38BqEPECBnsVLQZ9gU6ctX3SFwJ.jpg",
+        "reviews": [],
+        "description": "Sad\u0131k Ahmet, Bat\u0131 Trakya T\u00fcrklerinin hak ve \u00f6zg\u00fcrl\u00fck m\u00fccadelesinin lideri olan Doktor Sad\u0131k Ahmet'in hayat hikayesini konu ediyor. 1947 y\u0131l\u0131nda G\u00fcmilcine\u2019de do\u011fan Sad\u0131k Ahmet, t\u0131p e\u011fitimini tamamlayarak doktor olur. Yunanistan\u2019da ya\u015fayan Bat\u0131 Trakya T\u00fcrklerinin bir\u00e7ok hakk\u0131n\u0131n devlet taraf\u0131ndan hi\u00e7e say\u0131lmas\u0131 \u00fczerine Dr. Sad\u0131k Ahmet, siyasi bir m\u00fccadeleye giri\u015fir."
     }
 ]
