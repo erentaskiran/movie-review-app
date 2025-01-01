@@ -330,6 +330,10 @@ def open_movie_manager():
             messagebox.showwarning("Uyarı", "Arama kutusunu boş bırakmayın!")
             return
 
+        # Önceki arama sonuçlarını temizle
+        for widget in tmdb_results_frame.winfo_children():
+            widget.destroy()
+
         url = f"https://api.themoviedb.org/3/search/movie"
         params = {
             "api_key": TMDB_API_KEY,
@@ -344,7 +348,9 @@ def open_movie_manager():
             results = response.json().get("results", [])
 
             if not results:
-                tmdb_results_label.config(text="Sonuç bulunamadı.")
+                label = tk.Label(tmdb_results_frame, text="Sonuç bulunamadı.", bg="#1c1c1c", fg="white",
+                                 font=("Arial", 12))
+                label.pack(pady=5)
                 return
 
             for i, movie in enumerate(results[:3]):  # İlk 3 sonucu göster
@@ -352,12 +358,10 @@ def open_movie_manager():
                 release_date = movie.get("release_date", "Bilinmiyor")
                 banner = movie.get("poster_path", "")
                 description = movie.get("overview", "")
-                create_tmdb_result_row(
-                    i, title, release_date, banner, description)
+                create_tmdb_result_row(i, title, release_date, banner, description)
 
         except requests.RequestException as e:
-            messagebox.showerror(
-                "Hata", f"TMDb isteğinde bir hata oluştu: {e}")
+            messagebox.showerror("Hata", f"TMDb isteğinde bir hata oluştu: {e}")
 
     def create_tmdb_result_row(index, title, release_date, banner, description):
         frame = tk.Frame(tmdb_results_frame, bg="#1c1c1c")
