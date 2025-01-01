@@ -1,46 +1,45 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from PIL import Image, ImageTk  # Görselleri işlemek için
+from PIL import Image, ImageTk
 import json
 import os
+import requests
 
+TMDB_API_KEY = ""
+TMDB_BASE_URL = "https://api.themoviedb.org/3"
 jsonfile = "films.json"
 USERS_FILE = "users.json"
 
 
 def show_movie_details(movie):
-    # Yeni pencere (Popup)
+
     details_window = tk.Toplevel(root)
     details_window.title(movie["name"])
     details_window.geometry("600x900")
     details_window.configure(bg="#1c1c1c")
 
-    # Film Bannerı
-    img = Image.open(movie["banner"])
+    img = Image.open(requests.get(movie["banner"], stream=True).raw)
     img = img.resize((300, 200), Image.Resampling.LANCZOS)
     img = ImageTk.PhotoImage(img)
 
     img_label = tk.Label(details_window, image=img, bg="#1c1c1c")
-    img_label.image = img  # Referansı tutmak için
+    img_label.image = img
     img_label.pack(pady=10)
 
-    # Film İsmi
     name_label = tk.Label(details_window, text=movie["name"], bg="#1c1c1c", fg="white",
                           font=("Arial", 16, "bold"))
     name_label.pack(pady=5)
 
-    # Film Açıklaması
     description_label = tk.Label(details_window, text=movie.get("description", "Açıklama bulunamadı."),
                                  bg="#1c1c1c", fg="white", font=("Arial", 12), wraplength=500, justify="left")
     description_label.pack(pady=5)
 
-    # Değerlendirmeler
     reviews_label = tk.Label(details_window, text="Değerlendirmeler:", bg="#1c1c1c", fg="white",
                              font=("Arial", 14, "bold"))
     reviews_label.pack(pady=5)
 
     print(movie)
-    # Yorum ve Puanları Listele
+
     if "reviews" in movie and movie["reviews"]:
 
         for review in movie["reviews"]:
@@ -66,7 +65,6 @@ def update_watchlist():
                       movie["description"], movie["reviews"], movie["status"])
 
 
-# JSON dosyasını yükle
 def load_movies_from_json(file_path):
     with open(file_path, "r", encoding="utf-8") as file:
         data = json.load(file)
@@ -75,8 +73,6 @@ def load_movies_from_json(file_path):
 
 movies = load_movies_from_json(jsonfile)
 
-# JSON dosyasına kaydetme
-
 
 def save_movies(movies):
     with open(jsonfile, "w") as file:
@@ -84,18 +80,15 @@ def save_movies(movies):
 
 
 def open_review_movies():
-    # Yeni pencere (Popup)
     review_window = tk.Toplevel(root)
     review_window.title("Değerlendir")
     review_window.geometry("600x800")
     review_window.configure(bg="#1c1c1c")
 
-    # Başlık
     title_label = tk.Label(review_window, text="Dizi/Film Değerlendir",
                            bg="#1c1c1c", fg="white", font=("Arial", 16, "bold"))
     title_label.pack(pady=10)
 
-    # Search Bar
     search_frame = tk.Frame(review_window, bg="#2e2e2e")
     search_frame.pack(pady=10, padx=10, fill=tk.X)
 
@@ -110,12 +103,10 @@ def open_review_movies():
                               command=lambda: search_movie(search_entry.get()))
     search_button.pack(side=tk.LEFT, padx=5)
 
-    # Film/Dizi Listesi
     movie_listbox = tk.Listbox(review_window, font=("Arial", 12), bg="#2e2e2e",
                                fg="white", selectbackground="#4b4b4b", height=10)
     movie_listbox.pack(fill=tk.BOTH, padx=10, pady=10, expand=True)
 
-    # Film/Dizi Bilgileri
     details_frame = tk.Frame(review_window, bg="#1c1c1c")
     details_frame.pack(pady=10, padx=10, fill=tk.X)
 
@@ -131,7 +122,6 @@ def open_review_movies():
                           fg="white", font=("Arial", 12, "bold"))
     name_value.grid(row=0, column=2, sticky="w", padx=5)
 
-    # Yorum ve Puan Girişi
     input_frame = tk.Frame(review_window, bg="#1c1c1c")
     input_frame.pack(pady=10, padx=10, fill=tk.X)
 
@@ -150,42 +140,35 @@ def open_review_movies():
     rating_entry = tk.Entry(input_frame, font=("Arial", 12), width=5)
     rating_entry.grid(row=1, column=1, sticky="w", padx=5, pady=5)
 
-    # Film Seçim ve Değerlendirme İşlevleri
     def load_movie_details(index):
         movie = movies[index]
         name_value.config(text=movie["name"])
-        img = Image.open("image.png")  # Örnek resim dosyası, güncelle
-        img = img.resize((140, 140), Image.Resampling.LANCZOS)
+        img = Image.open(requests.get(movie["banner"], stream=True).raw)
+        img = img.resize((300, 200), Image.Resampling.LANCZOS)
         img = ImageTk.PhotoImage(img)
         banner_label.config(image=img)
-        banner_label.image = img  # Referansı sakla
+        banner_label.image = img
 
     def submit_review():
         try:
             rating = int(rating_entry.get())
             if 1 <= rating <= 5:
-                # Check if a movie is selected
                 selected_index = movie_listbox.curselection()
                 if selected_index:
-                    # Seçilen film indeksini al
                     index = selected_index[0]
                     global movies
                     movie = movies[index]
 
-                    # Kullanıcı bilgilerini ve yorumu al
                     comment = comment_entry.get("1.0", tk.END).strip()
 
-                    # Yeni yorumu oluştur ve filmin "reviews" alanına ekle
                     new_review = {
                         "rating": rating,
                         "comment": comment
                     }
                     movie["reviews"].append(new_review)
 
-                    # JSON dosyasını güncelle
                     save_movies(movies)
 
-                    # Başarı mesajı ve pencereyi kapatma
                     messagebox.showinfo(
                         "Başarılı", "Değerlendirme kaydedildi!")
                     review_window.destroy()
@@ -204,33 +187,27 @@ def open_review_movies():
             if query.lower() in movie["name"].lower():
                 movie_listbox.insert(tk.END, movie["name"])
 
-    # Değerlendirme Butonu
     submit_button = tk.Button(review_window, text="Değerlendirmeyi Kaydet", bg="#4b4b4b", fg="white",
                               font=("Arial", 10, "bold"), command=submit_review)
     submit_button.pack(pady=10)
 
-    # Listeyi ilk başlatma
     for movie in movies:
         movie_listbox.insert(tk.END, movie["name"])
 
-    # Listbox'tan film seçimi
     movie_listbox.bind("<<ListboxSelect>>", lambda e: load_movie_details(
         movie_listbox.curselection()[0]))
 
 
 def open_watched_movies():
-    # Yeni pencere (Popup)
     watched_window = tk.Toplevel(root)
     watched_window.title("İzlenenler")
     watched_window.geometry("900x900")
     watched_window.configure(bg="#1c1c1c")
 
-    # Başlık
     title_label = tk.Label(watched_window, text="İzlenen Filmler/Diziler", bg="#1c1c1c", fg="white",
                            font=("Arial", 16, "bold"))
     title_label.pack(pady=10)
 
-    # Search Bar
     search_frame = tk.Frame(watched_window, bg="#2e2e2e")
     search_frame.pack(pady=10, padx=10, fill=tk.X)
 
@@ -245,12 +222,10 @@ def open_watched_movies():
                               command=lambda: search_watched_movies(search_entry.get()))
     search_button.pack(side=tk.LEFT, padx=5)
 
-    # İzlenenler Container
     watched_frame = tk.Frame(
         watched_window, bg="#2e2e2e", width=850, height=500)
     watched_frame.pack(padx=20, pady=20, fill=tk.BOTH, expand=True)
 
-    # Canvas ve Scrollbar
     canvas = tk.Canvas(watched_frame, bg="#2e2e2e", highlightthickness=0)
     scrollbar = ttk.Scrollbar(
         watched_frame, orient="horizontal", command=canvas.xview)
@@ -265,28 +240,23 @@ def open_watched_movies():
     canvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
     scrollbar.pack(side=tk.BOTTOM, fill=tk.X)
 
-    # İzlenenleri Ekle
     def add_watched_movie(title, image_path, reviews=[]):
-        # Kart çerçevesi
         movie_card = tk.Frame(scrollable_frame, bg="#3a3a3a",
                               width=150, height=220, relief=tk.RAISED, bd=2)
         movie_card.pack(side=tk.LEFT, padx=10, pady=10)
 
-        # Film Bannerı
-        img = Image.open(image_path)
-        img = img.resize((140, 140), Image.Resampling.LANCZOS)
+        img = Image.open(requests.get(image_path, stream=True).raw)
+        img = img.resize((300, 200), Image.Resampling.LANCZOS)
         img = ImageTk.PhotoImage(img)
 
         img_label = tk.Label(movie_card, image=img, bg="#3a3a3a")
         img_label.image = img
         img_label.pack(pady=5)
 
-        # Film İsmi
         movie_label = tk.Label(movie_card, text=title, bg="#3a3a3a", fg="white", font=(
             "Arial", 12, "bold"), wraplength=140)
         movie_label.pack(pady=5)
 
-        # Tıklanabilirlik: Tüm kart yüzeyi için
         movie_card.bind("<Button-1>", lambda event, movie={
             "name": title, "banner": image_path, "description": "Örnek açıklama", "reviews": reviews}: show_movie_details(movie))
 
@@ -300,24 +270,20 @@ def open_watched_movies():
 
     for movie in movies:
         if movie["status"] == "İzlendi":
-            add_watched_movie(movie["name"], "image.png", movie["reviews"])
+            add_watched_movie(movie["name"], movie["banner"],
+                              movie["reviews"])
 
 
-# Dizi/Film Yönet Popup Penceresi
-    # Yeni pencere (Popup)
 def open_movie_manager():
-    # Yeni pencere (Popup)
     manager_window = tk.Toplevel(root)
     manager_window.title("Dizi/Film Yönet")
     manager_window.geometry("600x800")
     manager_window.configure(bg="#1c1c1c")
 
-    # Başlık
     title_label = tk.Label(manager_window, text="Dizi/Film Yönet",
                            bg="#1c1c1c", fg="white", font=("Arial", 16, "bold"))
     title_label.pack(pady=10)
 
-    # Search Bar
     search_frame = tk.Frame(manager_window, bg="#2e2e2e")
     search_frame.pack(pady=10, padx=10, fill=tk.X)
 
@@ -332,7 +298,6 @@ def open_movie_manager():
                               command=lambda: search_movie(search_entry.get()))
     search_button.pack(side=tk.LEFT, padx=5)
 
-    # Arama sonucu ve durum seçimi
     movie_frame = tk.Frame(manager_window, bg="#1c1c1c")
     movie_frame.pack(pady=10, padx=10, fill=tk.X)
 
@@ -352,7 +317,20 @@ def open_movie_manager():
                                values=["İzlendi", "İzlenecek", "İzleniyor"])
     status_menu.grid(row=1, column=1, padx=5, pady=5)
 
-    # Liste
+    banner_label = tk.Label(movie_frame, text="Banner URL:",
+                            bg="#1c1c1c", fg="white", font=("Arial", 12))
+    banner_label.grid(row=2, column=0, sticky="w", padx=5)
+
+    banner_entry = tk.Entry(movie_frame, font=("Arial", 12), width=40)
+    banner_entry.grid(row=2, column=1, padx=5, pady=5)
+
+    description_label = tk.Label(movie_frame, text="Açıklama:",
+                                 bg="#1c1c1c", fg="white", font=("Arial", 12))
+    description_label.grid(row=3, column=0, sticky="w", padx=5)
+
+    description_entry = tk.Entry(movie_frame, font=("Arial", 12), width=40)
+    description_entry.grid(row=3, column=1, padx=5, pady=5)
+
     list_frame = tk.Frame(manager_window, bg="#1c1c1c")
     list_frame.pack(pady=10, padx=10, fill=tk.BOTH, expand=True)
 
@@ -364,12 +342,12 @@ def open_movie_manager():
         "Arial", 12), bg="#2e2e2e", fg="white", selectbackground="#4b4b4b")
     movie_listbox.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
-    # İşlevsel butonlar
     button_frame = tk.Frame(manager_window, bg="#1c1c1c")
     button_frame.pack(pady=10, padx=10, fill=tk.X)
 
     add_button = tk.Button(button_frame, text="Ekle", bg="#4b4b4b", fg="white", font=("Arial", 10, "bold"),
-                           command=lambda: add_movie(movie_name.get(), status_var.get()))
+                           command=lambda: add_movie(movie_name.get(), status_var.get(),
+                                                     banner_entry.get(), description_entry.get()))
     add_button.pack(side=tk.LEFT, padx=5)
 
     delete_button = tk.Button(button_frame, text="Sil", bg="#4b4b4b", fg="white", font=("Arial", 10, "bold"),
@@ -377,33 +355,31 @@ def open_movie_manager():
     delete_button.pack(side=tk.LEFT, padx=5)
 
     update_button = tk.Button(button_frame, text="Güncelle", bg="#4b4b4b", fg="white", font=("Arial", 10, "bold"),
-                              command=lambda: update_movie(movie_listbox.curselection(), movie_name.get(), status_var.get()))
+                              command=lambda: update_movie(movie_listbox.curselection(), movie_name.get(), status_var.get(),
+                                                           banner_entry.get(), description_entry.get()))
     update_button.pack(side=tk.LEFT, padx=5)
 
-    # Mevcut filmleri listbox'a ekleme
     for movie in movies:
         movie_listbox.insert(tk.END, f"{movie['name']} ({movie['status']})")
 
-    selected = -1
-    # İşlevler
-
-    def add_movie(name, status):
-        # Kart çerçevesi
+    def add_movie(name, status, bannerurl, description):
         if name:
             movies.append({"name": name, "status": status,
-                          "banner": "image.png", "reviews": [], "description": ""})
-            save_movies(movies)  # JSON'a kaydet
+                           "banner": bannerurl, "reviews": [], "description": description})
+            save_movies(movies)
             movie_listbox.insert(tk.END, f"{name} ({status})")
             movie_name.delete(0, tk.END)
-            update_watchlist()  # Ana sayfayı güncelle
+            banner_entry.delete(0, tk.END)
+            description_entry.delete(0, tk.END)
+            update_watchlist()
 
     def delete_movie(selection):
         if selection:
             index = selection[0]
             del movies[index]
-            save_movies(movies)  # JSON'a kaydet
+            save_movies(movies)
             movie_listbox.delete(index)
-            update_watchlist()  # Ana sayfayı güncelle
+            update_watchlist()
 
     def search_movie(name):
         query = name.lower()
@@ -413,16 +389,16 @@ def open_movie_manager():
                 movie_listbox.insert(
                     tk.END, f"{movie['name']} ({movie['status']})")
 
-    def update_movie(selection, name, status):
+    def update_movie(selection, name, status, bannerurl, description):
         if selection and name:
             index = selection[0]
             movies[index] = {"name": name, "status": status,
-                             "banner": "image.png", "reviews": movies[index]["reviews"], "description": movies[index]["description"]}
-            save_movies(movies)  # JSON'a kaydet
+                             "banner": bannerurl, "reviews": movies[index]["reviews"], "description": description}
+            save_movies(movies)
             movie_listbox.delete(index)
             movie_listbox.insert(index, f"{name} ({status})")
-            update_watchlist()  # Ana sayfayı güncelle
-            movie_listbox.selection_set(index)  # Odaklanma kaybolmasın
+            update_watchlist()
+            movie_listbox.selection_set(index)
 
     def on_movie_select(event):
         try:
@@ -430,19 +406,22 @@ def open_movie_manager():
             if selection:
                 index = selection[0]
                 selected_movie = movies[index]
-                movie_name.delete(0, tk.END)  # Adı temizle
-                movie_name.insert(0, selected_movie["name"])  # Yeni adı ekle
-                status_var.set(selected_movie["status"])  # Durumu seç
+                movie_name.delete(0, tk.END)
+                movie_name.insert(0, selected_movie["name"])
+                banner_entry.delete(0, tk.END)
+                banner_entry.insert(0, selected_movie["banner"])
+                description_entry.delete(0, tk.END)
+                description_entry.insert(0, selected_movie["description"])
+                status_var.set(selected_movie["status"])
         except IndexError:
             pass
 
     def on_status_change(*args):
         selection = movie_listbox.curselection()
         if selection:
-            update_movie(selection, movie_name.get(), status_var.get())
+            update_movie(selection, movie_name.get(), status_var.get(),
+                         banner_entry.get(), description_entry.get())
 
-
-# Combobox değişikliklerini izlemek için Trace ekleniyor
     status_var.trace_add("write", on_status_change)
 
     movie_listbox.bind("<<ListboxSelect>>", on_movie_select)
@@ -455,10 +434,9 @@ def LoginRegisterPage():
     pencere.geometry("600x500")
     pencere.configure(bg="#e6f7ff")
 
-    # Resmin dosya yolunu kontrol edin
     arka_plan_resmi = Image.open("kraket.JPG")
     arka_plan_resmi = arka_plan_resmi.resize(
-        (600, 500), Image.Resampling.LANCZOS)  # Boyutlandırma
+        (600, 500), Image.Resampling.LANCZOS)
     resim = ImageTk.PhotoImage(arka_plan_resmi)
 
     sag_frame = tk.Frame(pencere, bg="white", width=600,
@@ -467,7 +445,7 @@ def LoginRegisterPage():
 
     arka_plan_label = tk.Label(sag_frame, image=resim)
     arka_plan_label.image = resim
-    # Resmi frame'in tamamına yay
+
     arka_plan_label.place(x=0, y=0, relwidth=1, relheight=1)
 
     giris_yap_label = tk.Label(sag_frame, text="Giriş Yap",
@@ -516,9 +494,9 @@ def LoginRegisterPage():
             with open('users.json', 'r', encoding='utf-8') as file:
                 return json.load(file)
         except FileNotFoundError:
-            return {}  # Dosya yoksa boş bir sözlük döner
+            return {}
         except json.JSONDecodeError:
-            return {}  # JSON hatası varsa boş bir sözlük döner
+            return {}
 
     kullanici_bilgileri = load_users()
 
@@ -616,9 +594,9 @@ def LoginRegisterPage():
                 with open('users.json', 'r', encoding='utf-8') as file:
                     return json.load(file)
             except FileNotFoundError:
-                return {}  # Dosya yoksa boş bir sözlük döner
+                return {}
             except json.JSONDecodeError:
-                return {}  # JSON hatası varsa boş bir sözlük döner
+                return {}
 
         def save_users(users):
             with open('users.json', 'w', encoding='utf-8') as file:
@@ -672,6 +650,14 @@ def LoginRegisterPage():
     pencere.mainloop()
 
 
+def lucky_day():
+    movie = get_random_movie()
+    if not movie:
+        return
+
+    show_movie_detail(movie)
+
+
 # Ana pencere
 LoginRegisterPage()
 if (jsonfile == "films.json"):
@@ -679,9 +665,9 @@ if (jsonfile == "films.json"):
 root = tk.Tk()
 root.title("Filmdeğerlendir")
 root.geometry("900x600")
-root.configure(bg="#1c1c1c")  # Arkaplan rengi (koyu tema)
+root.configure(bg="#1c1c1c")
 
-# Üst menü çubuğu
+
 menu_frame = tk.Frame(root, bg="#2e2e2e", height=50)
 menu_frame.pack(side=tk.TOP, fill=tk.X)
 
@@ -699,19 +685,19 @@ for button in buttons:
                         command=open_review_movies)
     else:
         btn = tk.Button(menu_frame, text=button, bg="brown", fg="black", font=(
-            "Arial", 10, "bold"), relief=tk.GROOVE)
+            "Arial", 10, "bold"), relief=tk.GROOVE, command=lucky_day)
     btn.pack(side=tk.LEFT, padx=5, pady=5)
 
-# Watchlist Başlığı
+
 watchlist_label = tk.Label(
     root, text="Watchlist", bg="#1c1c1c", fg="white", font=("Arial", 16, "bold"))
 watchlist_label.pack(anchor="w", padx=10, pady=10)
 
-# Watchlist Container
+
 watchlist_frame = tk.Frame(root, bg="#2e2e2e", width=850, height=400)
 watchlist_frame.pack(padx=20, pady=20, fill=tk.BOTH, expand=True)
 
-# Canvas ve Scrollbar
+
 canvas = tk.Canvas(watchlist_frame, bg="#2e2e2e", highlightthickness=0)
 scrollbar = ttk.Scrollbar(
     watchlist_frame, orient="horizontal", command=canvas.xview)
@@ -726,32 +712,129 @@ canvas.configure(xscrollcommand=scrollbar.set)
 canvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 scrollbar.pack(side=tk.BOTTOM, fill=tk.X)
 
-# Filmleri listeye ekleme (örnek)
-
 
 def add_movie(title, image_path, description="Açıklama mevcut değil", reviews=[], status=""):
-    # Kart çerçevesi
+
     movie_card = tk.Frame(scrollable_frame, bg="#3a3a3a",
                           width=150, height=220, relief=tk.RAISED, bd=2)
     movie_card.pack(side=tk.LEFT, padx=10, pady=10)
 
-    # Film Bannerı
-    img = Image.open(image_path)
-    img = img.resize((140, 140), Image.Resampling.LANCZOS)
-    img = ImageTk.PhotoImage(img)
+    response = requests.get(image_path, stream=True)
+    if response.status_code == 200:
+        img = Image.open(response.raw)
+        img = img.resize((300, 200), Image.Resampling.LANCZOS)
+        img = ImageTk.PhotoImage(img)
 
-    img_label = tk.Label(movie_card, image=img, bg="#3a3a3a")
-    img_label.image = img
-    img_label.pack(pady=5)
+        img_label = tk.Label(movie_card, image=img, bg="#3a3a3a")
+        img_label.image = img
+        img_label.pack(pady=5)
+    else:
+        print("Resim yüklenemedi:", response.text)
 
-    # Film İsmi
     movie_label = tk.Label(movie_card, text=title, bg="#3a3a3a", fg="white", font=(
         "Arial", 12, "bold"), wraplength=140)
     movie_label.pack(pady=5)
 
-    # Tıklanabilirlik: Tüm kart yüzeyi için
     movie_card.bind("<Button-1>", lambda event, movie={
         "name": title, "banner": image_path, "description": description, "reviews": reviews, "status": status}: show_movie_details(movie))
+
+
+def get_random_movie():
+    try:
+
+        response = requests.get(
+            f"{TMDB_BASE_URL}/movie/popular?api_key={TMDB_API_KEY}&language=tr-TR&page=1")
+        response.raise_for_status()
+        movies = response.json().get("results", [])
+        if not movies:
+            raise Exception("Film listesi alınamadı.")
+
+        import random
+        selected_movie = random.choice(movies)
+
+        movie_id = selected_movie["id"]
+        movie_response = requests.get(
+            f"{TMDB_BASE_URL}/movie/{movie_id}?api_key={TMDB_API_KEY}&language=tr-TR")
+        movie_response.raise_for_status()
+        movie_details = movie_response.json()
+
+        movie_info = {
+            "name": movie_details["title"],
+            "description": movie_details.get("overview", "Açıklama bulunamadı."),
+            "banner": f"https://image.tmdb.org/t/p/w500{movie_details['poster_path']}" if movie_details.get("poster_path") else None,
+
+            "reviews": [{"rating": 4, "comment": "Harika bir film!"}],
+        }
+        return movie_info
+    except Exception as e:
+        messagebox.showerror("Hata", f"Film alınamadı: {e}")
+        return None
+
+
+def show_movie_detail(movie):
+    def save_to_watchlist(movie):
+        print(movie)
+        if not os.path.exists(jsonfile):
+            with open(jsonfile, "w") as file:
+                json.dump([], file)
+
+        with open(jsonfile, "r") as file:
+            watchlist = json.load(file)
+
+        if any(item["name"] == movie["name"] for item in watchlist):
+            print(f"{movie['name']} zaten izlenecek listesine ekli!")
+            return
+
+        movie["status"] = "İzlenecek"
+
+        watchlist.append(movie)
+        with open(jsonfile, "w") as file:
+            json.dump(watchlist, file, ensure_ascii=False, indent=4)
+        global movies
+        movies = load_movies_from_json(jsonfile)
+        update_watchlist()
+
+    details_window = tk.Toplevel(root)
+    details_window.title(movie["name"])
+    details_window.geometry("600x900")
+    details_window.configure(bg="#1c1c1c")
+
+    if movie["banner"]:
+        img = Image.open(requests.get(movie["banner"], stream=True).raw)
+        img = img.resize((300, 200), Image.Resampling.LANCZOS)
+        img = ImageTk.PhotoImage(img)
+
+        img_label = tk.Label(details_window, image=img, bg="#1c1c1c")
+        img_label.image = img
+        img_label.pack(pady=10)
+
+    name_label = tk.Label(details_window, text=movie["name"], bg="#1c1c1c", fg="white",
+                          font=("Arial", 16, "bold"))
+    name_label.pack(pady=5)
+
+    description_label = tk.Label(details_window, text=movie.get("description", "Açıklama bulunamadı."),
+                                 bg="#1c1c1c", fg="white", font=("Arial", 12), wraplength=500, justify="left")
+    description_label.pack(pady=5)
+
+    reviews_label = tk.Label(details_window, text="Değerlendirmeler:", bg="#1c1c1c", fg="white",
+                             font=("Arial", 14, "bold"))
+    reviews_label.pack(pady=5)
+
+    if movie.get("reviews"):
+        for review in movie["reviews"]:
+            review_text = f"Puan: {
+                review['rating']}/5\nYorum: {review['comment']}"
+            review_label = tk.Label(details_window, text=review_text, bg="#2e2e2e", fg="white",
+                                    font=("Arial", 12), wraplength=500, justify="left", padx=10, pady=10)
+            review_label.pack(pady=5, fill=tk.BOTH, expand=True)
+    else:
+        review_label = tk.Label(details_window, text="Henüz bir değerlendirme yapılmadı.", bg="#2e2e2e", fg="white",
+                                font=("Arial", 12), wraplength=500, justify="left", padx=10, pady=10)
+        review_label.pack(pady=10, fill=tk.BOTH, expand=True)
+
+    add_to_watchlist_button = tk.Button(details_window, text="İzleneceklere Ekle", bg="green", fg="white",
+                                        font=("Arial", 12, "bold"), command=lambda: save_to_watchlist(movie))
+    add_to_watchlist_button.pack(pady=20)
 
 
 update_watchlist()

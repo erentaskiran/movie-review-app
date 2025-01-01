@@ -1,8 +1,8 @@
 [
     {
         "name": "afsdfes",
-        "status": "\u0130zleniyor",
-        "banner": "image.png",
+        "status": "İzleniyor",
+        "banner": "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg",
         "reviews": [
             {
                 "rating": 2,
@@ -14,5 +14,57 @@
             }
         ],
         "description": ""
+    },
+    {
+        "name": "Gladyatör II",
+        "status": "İzlendi",
+        "banner": "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg",
+        "reviews": [
+            {
+                "rating": 4,
+                "comment": "Harika bir film!"
+            },
+            {
+                "rating": 3,
+                "comment": "afdssfadfds"
+            }
+        ],
+        "description": "Gladyatör Maximus Decimus Meridius’un ölümünden 15 yıl sonrasıdır. Kana susamış kalabalıklar yarı deli ikiz imparatorları zalimliğin yeni zirvelerine iterken Kolezyum’daki savaşlar çok daha ölümcül ve görkemli hâle gelmiştir. Roma İmparatorluğu sınırlarını genişleterek, yoluna çıkan her kültürü yağmalayarak ve hayatta kalanları ringde yaşamları için savaşmaya zorlayarak yeryüzündeki yürüyüşünü sürdürmektedir."
+    },
+    {
+        "name": "Cevher",
+        "status": "İzlenecek",
+        "banner": "https://image.tmdb.org/t/p/w500/rNrBHeqnDA8aHIz9eYkBskcKhq7.jpg",
+        "reviews": [
+            {
+                "rating": 4,
+                "comment": "Harika bir film!"
+            }
+        ],
+        "description": "Bir aerobik programının yıldızı olan Elisabeth Sparkle, ilerleyen yaşı yüzünden 50. doğumgününde kovulunca yıkılır. Gizemli bir laboratuvar ona, damarlarına zerk edildiğinde \"kendisinin daha iyi bir versiyonunu\" ortaya çıkaracak mucizevi bir maddeyi kullanması önerisiyle yaklaşır. David Cronenberg, John Carpenter, David Lynch ve Michael Haneke’den esinlenen yönetmen Coralie Fargeat’ın büyük ses getiren ilk filmi İntikam’ın (2017) ardından çektiği bu çağdaş zaman eleştirisi alabildiğine stilize, zihinlerde kesinlikle iz bırakacak, zaman zaman kanlı, dehşet verici ve bazen de komik. Her yanıyla olağanüstü Demi Moore, kendi imajını da acımasızca yansıtan Elisabeth’i canlandırırken alabildiğine cesur."
+    },
+    {
+        "name": "Moana 2",
+        "status": "İzlenecek",
+        "banner": "https://image.tmdb.org/t/p/w500/m0SbwFNCa9epW1X60deLqTHiP7x.jpg",
+        "reviews": [
+            {
+                "rating": 4,
+                "comment": "Harika bir film!"
+            }
+        ],
+        "description": "Moana ve Maui'yi üç yıl sonra alışılmadık denizcilerden oluşan bir ekiple birlikte geniş kapsamlı yeni bir yolculuk için yeniden bir araya getiriyor. Yol gösterici atalarından beklenmedik bir çağrı alan Moana, daha önce karşılaşmadığı bir macera için Okyanusya'nın uzak denizlerine, tehlikeli ve uzun süredir bilinmeyen sularına yolculuk etmek zorunda."
+    },
+    {
+        "name": "Kod Adı: Kırmızı",
+        "description": "Kuzey Kutbu'nun Güvenlik Şefi (Dwayne Johnson), Noel'i kurtarmak için dünyanın en kötü şöhretli ödül avcısıyla (Chris Evans) dünyayı dolaşacakları aksiyon dolu bir görevde bir araya gelmek zorunda kalır.",
+        "banner": "https://image.tmdb.org/t/p/w500/ymEu97tJ8h2sUAhaw8CU3MGTi9v.jpg",
+        "reviews": [
+            {
+                "rating": 4,
+                "comment": "Harika bir film!"
+            }
+        ],
+        "status": "İzlenecek"
     }
 ]
