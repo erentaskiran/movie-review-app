@@ -441,8 +441,8 @@ def open_movie_manager():
     button_frame.pack(pady=10, padx=10, fill=tk.X)
 
     add_button = tk.Button(button_frame, text="Ekle", bg="#4b4b4b", fg="black", font=("Arial", 10, "bold"),
-                           command=lambda: add_movie(movie_name.get(), status_var.get(),
-                                                     banner_entry.get(), description_entry.get()))
+                           command=lambda: add_movie(movie_name.get(), status_var.get(), banner_entry.get(), description_entry.get()))
+    add_button.pack(side=tk.LEFT, padx=5)
     add_button.pack(side=tk.LEFT, padx=5)
 
     delete_button = tk.Button(button_frame, text="Sil", bg="#4b4b4b", fg="black", font=("Arial", 10, "bold"),
@@ -484,6 +484,19 @@ def open_movie_manager():
             movie_listbox.insert(index, f"{name} ({status})")
             movie_listbox.selection_set(index)
 
+    def on_status_change(*args):
+        selection = movie_listbox.curselection()
+        if selection:
+            index = selection[0]
+            selected_movie = movies[index]
+            selected_movie["status"] = status_var.get()
+            save_movies(movies)
+            # Listbox'taki öğeyi güncelle
+            movie_listbox.delete(index)
+            movie_listbox.insert(index, f"{selected_movie['name']} ({selected_movie['status']})")
+            movie_listbox.selection_set(index)
+            update_watchlist()
+
     def on_movie_select(event):
         try:
             selection = movie_listbox.curselection()
@@ -500,6 +513,7 @@ def open_movie_manager():
         except IndexError:
             pass
 
+    status_var.trace_add("write", on_status_change)
     movie_listbox.bind("<<ListboxSelect>>", on_movie_select)
 
 
