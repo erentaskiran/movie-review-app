@@ -1,7 +1,7 @@
 [
     {
         "name": "afsdfes",
-        "status": "İzleniyor",
+        "status": "\u0130zleniyor",
         "banner": "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg",
         "reviews": [
             {
@@ -16,9 +16,30 @@
         "description": ""
     },
     {
-        "name": "Gladyatör II",
-        "status": "İzlendi",
+        "name": "Gladyat\u00f6r II",
+        "status": "\u0130zlendi",
         "banner": "https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg",
+        "reviews": [],
+        "description": "Gladyat\u00f6r Maximus Decimus Meridius\u2019un \u00f6l\u00fcm\u00fcnden 15 y\u0131l sonras\u0131d\u0131r. Kana susam\u0131\u015f kalabal\u0131klar yar\u0131 deli ikiz imparatorlar\u0131 zalimli\u011fin yeni zirvelerine iterken Kolezyum\u2019daki sava\u015flar \u00e7ok daha \u00f6l\u00fcmc\u00fcl ve g\u00f6rkemli h\u00e2le gelmi\u015ftir. Roma \u0130mparatorlu\u011fu s\u0131n\u0131rlar\u0131n\u0131 geni\u015fleterek, yoluna \u00e7\u0131kan her k\u00fclt\u00fcr\u00fc ya\u011fmalayarak ve hayatta kalanlar\u0131 ringde ya\u015famlar\u0131 i\u00e7in sava\u015fmaya zorlayarak yery\u00fcz\u00fcndeki y\u00fcr\u00fcy\u00fc\u015f\u00fcn\u00fc s\u00fcrd\u00fcrmektedir."
+    },
+    {
+        "name": "Cevher",
+        "status": "\u0130zlenecek",
+        "banner": "https://image.tmdb.org/t/p/w500/rNrBHeqnDA8aHIz9eYkBskcKhq7.jpg",
+        "reviews": [],
+        "description": "Bir aerobik program\u0131n\u0131n y\u0131ld\u0131z\u0131 olan Elisabeth Sparkle, ilerleyen ya\u015f\u0131 y\u00fcz\u00fcnden 50. do\u011fumg\u00fcn\u00fcnde kovulunca y\u0131k\u0131l\u0131r. Gizemli bir laboratuvar ona, damarlar\u0131na zerk edildi\u011finde \"kendisinin daha iyi bir versiyonunu\" ortaya \u00e7\u0131karacak mucizevi bir maddeyi kullanmas\u0131 \u00f6nerisiyle yakla\u015f\u0131r. David Cronenberg, John Carpenter, David Lynch ve Michael Haneke\u2019den esinlenen y\u00f6netmen Coralie Fargeat\u2019\u0131n b\u00fcy\u00fck ses getiren ilk filmi \u0130ntikam\u2019\u0131n (2017) ard\u0131ndan \u00e7ekti\u011fi bu \u00e7a\u011fda\u015f zaman ele\u015ftirisi alabildi\u011fine stilize, zihinlerde kesinlikle iz b\u0131rakacak, zaman zaman kanl\u0131, deh\u015fet verici ve bazen de komik. Her yan\u0131yla ola\u011fan\u00fcst\u00fc Demi Moore, kendi imaj\u0131n\u0131 da ac\u0131mas\u0131zca yans\u0131tan Elisabeth\u2019i canland\u0131r\u0131rken alabildi\u011fine cesur."
+    },
+    {
+        "name": "Moana 2",
+        "status": "\u0130zlenecek",
+        "banner": "https://image.tmdb.org/t/p/w500/m0SbwFNCa9epW1X60deLqTHiP7x.jpg",
+        "reviews": [],
+        "description": "Moana ve Maui'yi \u00fc\u00e7 y\u0131l sonra al\u0131\u015f\u0131lmad\u0131k denizcilerden olu\u015fan bir ekiple birlikte geni\u015f kapsaml\u0131 yeni bir yolculuk i\u00e7in yeniden bir araya getiriyor. Yol g\u00f6sterici atalar\u0131ndan beklenmedik bir \u00e7a\u011fr\u0131 alan Moana, daha \u00f6nce kar\u015f\u0131la\u015fmad\u0131\u011f\u0131 bir macera i\u00e7in Okyanusya'n\u0131n uzak denizlerine, tehlikeli ve uzun s\u00fcredir bilinmeyen sular\u0131na yolculuk etmek zorunda."
+    },
+    {
+        "name": "Kod Ad\u0131: K\u0131rm\u0131z\u0131",
+        "status": "\u0130zlenecek",
+        "banner": "https://image.tmdb.org/t/p/w500/ymEu97tJ8h2sUAhaw8CU3MGTi9v.jpg",
         "reviews": [
             {
                 "rating": 4,
@@ -26,45 +47,33 @@
             },
             {
                 "rating": 3,
-                "comment": "afdssfadfds"
+                "comment": "adsf"
             }
         ],
-        "description": "Gladyatör Maximus Decimus Meridius’un ölümünden 15 yıl sonrasıdır. Kana susamış kalabalıklar yarı deli ikiz imparatorları zalimliğin yeni zirvelerine iterken Kolezyum’daki savaşlar çok daha ölümcül ve görkemli hâle gelmiştir. Roma İmparatorluğu sınırlarını genişleterek, yoluna çıkan her kültürü yağmalayarak ve hayatta kalanları ringde yaşamları için savaşmaya zorlayarak yeryüzündeki yürüyüşünü sürdürmektedir."
+        "description": "Kuzey Kutbu'nun G\u00fcvenlik \u015eefi (Dwayne Johnson), Noel'i kurtarmak i\u00e7in d\u00fcnyan\u0131n en k\u00f6t\u00fc \u015f\u00f6hretli \u00f6d\u00fcl avc\u0131s\u0131yla (Chris Evans) d\u00fcnyay\u0131 dola\u015facaklar\u0131 aksiyon dolu bir g\u00f6revde bir araya gelmek zorunda kal\u0131r."
     },
     {
-        "name": "Cevher",
-        "status": "İzlenecek",
-        "banner": "https://image.tmdb.org/t/p/w500/rNrBHeqnDA8aHIz9eYkBskcKhq7.jpg",
+        "name": "Dirty Angels",
+        "description": "",
+        "banner": "https://image.tmdb.org/t/p/w500/3O3qSGmjRGc10hMwFul8WDxKE5t.jpg",
         "reviews": [
             {
                 "rating": 4,
                 "comment": "Harika bir film!"
             }
         ],
-        "description": "Bir aerobik programının yıldızı olan Elisabeth Sparkle, ilerleyen yaşı yüzünden 50. doğumgününde kovulunca yıkılır. Gizemli bir laboratuvar ona, damarlarına zerk edildiğinde \"kendisinin daha iyi bir versiyonunu\" ortaya çıkaracak mucizevi bir maddeyi kullanması önerisiyle yaklaşır. David Cronenberg, John Carpenter, David Lynch ve Michael Haneke’den esinlenen yönetmen Coralie Fargeat’ın büyük ses getiren ilk filmi İntikam’ın (2017) ardından çektiği bu çağdaş zaman eleştirisi alabildiğine stilize, zihinlerde kesinlikle iz bırakacak, zaman zaman kanlı, dehşet verici ve bazen de komik. Her yanıyla olağanüstü Demi Moore, kendi imajını da acımasızca yansıtan Elisabeth’i canlandırırken alabildiğine cesur."
+        "status": "\u0130zlenecek"
     },
     {
-        "name": "Moana 2",
-        "status": "İzlenecek",
-        "banner": "https://image.tmdb.org/t/p/w500/m0SbwFNCa9epW1X60deLqTHiP7x.jpg",
+        "name": "Deadpool & Wolverine",
+        "description": "Wade Wilson\u2019\u0131n bir paral\u0131 asker olarak ge\u00e7irdi\u011fi g\u00fcnler ve Deadpool kimli\u011fi art\u0131k geride kalm\u0131\u015ft\u0131r. O \u015fimdi sivil hayatta varl\u0131k g\u00f6stermek i\u00e7in \u00e7abalar. Wade, yeni hayat\u0131na al\u0131\u015fmaya \u00e7al\u0131\u015f\u0131rken, b\u00fcy\u00fck bir tehlike ile kar\u015f\u0131 kar\u015f\u0131ya kal\u0131nca harekete ge\u00e7mek zorunda kal\u0131r. Ancak bu tehlike ile tek ba\u015f\u0131na ba\u015f etmesi zordur. Bu y\u00fczden Wade en az kendisi kadar isteksiz olan Wolverine'i yard\u0131m etmesi i\u00e7in ikna etmeye \u00e7al\u0131\u015f\u0131r.",
+        "banner": "https://image.tmdb.org/t/p/w500/c3BuUXYjvGcKwZYKZsYjMDFQr1D.jpg",
         "reviews": [
             {
                 "rating": 4,
                 "comment": "Harika bir film!"
             }
         ],
-        "description": "Moana ve Maui'yi üç yıl sonra alışılmadık denizcilerden oluşan bir ekiple birlikte geniş kapsamlı yeni bir yolculuk için yeniden bir araya getiriyor. Yol gösterici atalarından beklenmedik bir çağrı alan Moana, daha önce karşılaşmadığı bir macera için Okyanusya'nın uzak denizlerine, tehlikeli ve uzun süredir bilinmeyen sularına yolculuk etmek zorunda."
-    },
-    {
-        "name": "Kod Adı: Kırmızı",
-        "description": "Kuzey Kutbu'nun Güvenlik Şefi (Dwayne Johnson), Noel'i kurtarmak için dünyanın en kötü şöhretli ödül avcısıyla (Chris Evans) dünyayı dolaşacakları aksiyon dolu bir görevde bir araya gelmek zorunda kalır.",
-        "banner": "https://image.tmdb.org/t/p/w500/ymEu97tJ8h2sUAhaw8CU3MGTi9v.jpg",
-        "reviews": [
-            {
-                "rating": 4,
-                "comment": "Harika bir film!"
-            }
-        ],
-        "status": "İzlenecek"
+        "status": "\u0130zlenecek"
     }
 ]

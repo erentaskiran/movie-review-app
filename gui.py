@@ -12,7 +12,6 @@ USERS_FILE = "users.json"
 
 
 def show_movie_details(movie):
-
     details_window = tk.Toplevel(root)
     details_window.title(movie["name"])
     details_window.geometry("600x900")
@@ -38,17 +37,26 @@ def show_movie_details(movie):
                              font=("Arial", 14, "bold"))
     reviews_label.pack(pady=5)
 
-    print(movie)
+    def delete_review(review_to_delete):
+        movie["reviews"].remove(review_to_delete)
+        save_movies(movies)
+        details_window.destroy()
+        show_movie_details(movie)
 
     if "reviews" in movie and movie["reviews"]:
-
         for review in movie["reviews"]:
-            print("asd")
-            review_text = f"Puan: {
-                review['rating']}/5\nYorum: {review['comment']}"
-            review_label = tk.Label(details_window, text=review_text, bg="#2e2e2e", fg="white",
-                                    font=("Arial", 12), wraplength=500, justify="left", padx=10, pady=10)
-            review_label.pack(pady=5, fill=tk.BOTH, expand=True)
+            review_frame = tk.Frame(details_window, bg="#2e2e2e", padx=10, pady=10)
+            review_frame.pack(pady=5, fill=tk.BOTH, expand=True)
+
+            review_text = f"Puan: {review['rating']}/5\nYorum: {review['comment']}"
+            review_label = tk.Label(review_frame, text=review_text, bg="#2e2e2e", fg="white",
+                                    font=("Arial", 12), wraplength=500, justify="left")
+            review_label.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+
+            delete_button = tk.Button(review_frame, text="Sil", bg="#4b4b4b", fg="black",
+                                      font=("Arial", 10, "bold"),
+                                      command=lambda r=review: delete_review(r))
+            delete_button.pack(side=tk.RIGHT, padx=10)
     else:
         review_label = tk.Label(details_window, text="Henüz bir değerlendirme yapılmadı.", bg="#2e2e2e", fg="white",
                                 font=("Arial", 12), wraplength=500, justify="left", padx=10, pady=10)
@@ -99,7 +107,7 @@ def open_review_movies():
     search_entry = tk.Entry(search_frame, font=("Arial", 12), width=40)
     search_entry.pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
 
-    search_button = tk.Button(search_frame, text="Ara", bg="#4b4b4b", fg="white", font=("Arial", 10, "bold"),
+    search_button = tk.Button(search_frame, text="Ara", bg="#4b4b4b", fg="black", font=("Arial", 10, "bold"),
                               command=lambda: search_movie(search_entry.get()))
     search_button.pack(side=tk.LEFT, padx=5)
 
@@ -144,7 +152,7 @@ def open_review_movies():
         movie = movies[index]
         name_value.config(text=movie["name"])
         img = Image.open(requests.get(movie["banner"], stream=True).raw)
-        img = img.resize((300, 200), Image.Resampling.LANCZOS)
+        img = img.resize((600, 400), Image.Resampling.LANCZOS)
         img = ImageTk.PhotoImage(img)
         banner_label.config(image=img)
         banner_label.image = img
@@ -187,7 +195,7 @@ def open_review_movies():
             if query.lower() in movie["name"].lower():
                 movie_listbox.insert(tk.END, movie["name"])
 
-    submit_button = tk.Button(review_window, text="Değerlendirmeyi Kaydet", bg="#4b4b4b", fg="white",
+    submit_button = tk.Button(review_window, text="Değerlendirmeyi Kaydet", bg="#4b4b4b", fg="black",
                               font=("Arial", 10, "bold"), command=submit_review)
     submit_button.pack(pady=10)
 
@@ -218,7 +226,7 @@ def open_watched_movies():
     search_entry = tk.Entry(search_frame, font=("Arial", 12), width=40)
     search_entry.pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
 
-    search_button = tk.Button(search_frame, text="Ara", bg="#4b4b4b", fg="white", font=("Arial", 10, "bold"),
+    search_button = tk.Button(search_frame, text="Ara", bg="#4b4b4b", fg="black", font=("Arial", 10, "bold"),
                               command=lambda: search_watched_movies(search_entry.get()))
     search_button.pack(side=tk.LEFT, padx=5)
 
@@ -294,7 +302,7 @@ def open_movie_manager():
     search_entry = tk.Entry(search_frame, font=("Arial", 12), width=40)
     search_entry.pack(side=tk.LEFT, padx=5, fill=tk.X, expand=True)
 
-    search_button = tk.Button(search_frame, text="Ara", bg="#4b4b4b", fg="white", font=("Arial", 10, "bold"),
+    search_button = tk.Button(search_frame, text="Ara", bg="#4b4b4b", fg="black", font=("Arial", 10, "bold"),
                               command=lambda: search_movie(search_entry.get()))
     search_button.pack(side=tk.LEFT, padx=5)
 
@@ -345,16 +353,16 @@ def open_movie_manager():
     button_frame = tk.Frame(manager_window, bg="#1c1c1c")
     button_frame.pack(pady=10, padx=10, fill=tk.X)
 
-    add_button = tk.Button(button_frame, text="Ekle", bg="#4b4b4b", fg="white", font=("Arial", 10, "bold"),
+    add_button = tk.Button(button_frame, text="Ekle", bg="#4b4b4b", fg="black", font=("Arial", 10, "bold"),
                            command=lambda: add_movie(movie_name.get(), status_var.get(),
                                                      banner_entry.get(), description_entry.get()))
     add_button.pack(side=tk.LEFT, padx=5)
 
-    delete_button = tk.Button(button_frame, text="Sil", bg="#4b4b4b", fg="white", font=("Arial", 10, "bold"),
+    delete_button = tk.Button(button_frame, text="Sil", bg="#4b4b4b", fg="black", font=("Arial", 10, "bold"),
                               command=lambda: delete_movie(movie_listbox.curselection()))
     delete_button.pack(side=tk.LEFT, padx=5)
 
-    update_button = tk.Button(button_frame, text="Güncelle", bg="#4b4b4b", fg="white", font=("Arial", 10, "bold"),
+    update_button = tk.Button(button_frame, text="Güncelle", bg="#4b4b4b", fg="black", font=("Arial", 10, "bold"),
                               command=lambda: update_movie(movie_listbox.curselection(), movie_name.get(), status_var.get(),
                                                            banner_entry.get(), description_entry.get()))
     update_button.pack(side=tk.LEFT, padx=5)
@@ -522,7 +530,7 @@ def LoginRegisterPage():
     giris_buton_resmi = giris_buton_resmi.resize(
         (150, 50), Image.Resampling.LANCZOS)
     giris_resim = ImageTk.PhotoImage(giris_buton_resmi)
-    giris_buton_label = tk.Button(sag_frame, text="GİRİŞ YAP", compound="center", fg="white", image=giris_resim,
+    giris_buton_label = tk.Button(sag_frame, text="GİRİŞ YAP", compound="center", fg="black", image=giris_resim,
                                   bg="#040405", activebackground="#040405", cursor="hand2", bd=0, command=girisyap)
     giris_buton_label.image = giris_resim
     giris_buton_label.place(x=15, y=410)
@@ -623,7 +631,7 @@ def LoginRegisterPage():
         kayit_tamamla_resmi = kayit_tamamla_resmi.resize(
             (150, 50), Image.Resampling.LANCZOS)
         kayit_tamamla_resim = ImageTk.PhotoImage(kayit_tamamla_resmi)
-        kayit_tamamla_label = tk.Button(kayit_frame, text="KAYDI TAMAMLA", compound="center", fg="white", image=kayit_tamamla_resim,
+        kayit_tamamla_label = tk.Button(kayit_frame, text="KAYDI TAMAMLA", compound="center", fg="black", image=kayit_tamamla_resim,
                                         bg="#040405", activebackground="#040405", cursor="hand2", bd=0, command=kayditamamla)
         kayit_tamamla_label.image = kayit_tamamla_resim
         kayit_tamamla_label.place(x=15, y=410)
@@ -632,7 +640,7 @@ def LoginRegisterPage():
         geri_gel_resmi = geri_gel_resmi.resize(
             (150, 50), Image.Resampling.LANCZOS)
         geri_gel_resim = ImageTk.PhotoImage(geri_gel_resmi)
-        geri_gel_label = tk.Button(kayit_frame, text="GERİ", compound="center", fg="white",
+        geri_gel_label = tk.Button(kayit_frame, text="GERİ", compound="center", fg="black",
                                    image=geri_gel_resim,
                                    bg="#040405", activebackground="#040405", cursor="hand2", bd=0, command=gerigel)
         geri_gel_label.image = geri_gel_resim
@@ -642,7 +650,7 @@ def LoginRegisterPage():
     kayit_buton_resmi = kayit_buton_resmi.resize(
         (150, 50), Image.Resampling.LANCZOS)
     kayit_resim = ImageTk.PhotoImage(kayit_buton_resmi)
-    kayit_buton_label = tk.Button(sag_frame, text="KAYIT OL", compound="center", fg="white", image=kayit_resim,
+    kayit_buton_label = tk.Button(sag_frame, text="KAYIT OL", compound="center", fg="black", image=kayit_resim,
                                   bg="#040405", activebackground="#040405", cursor="hand2", bd=0, command=kayitol)
     kayit_buton_label.image = kayit_buton_resmi
     kayit_buton_label.place(x=420, y=410)
@@ -832,7 +840,7 @@ def show_movie_detail(movie):
                                 font=("Arial", 12), wraplength=500, justify="left", padx=10, pady=10)
         review_label.pack(pady=10, fill=tk.BOTH, expand=True)
 
-    add_to_watchlist_button = tk.Button(details_window, text="İzleneceklere Ekle", bg="green", fg="white",
+    add_to_watchlist_button = tk.Button(details_window, text="İzleneceklere Ekle", bg="green", fg="black",
                                         font=("Arial", 12, "bold"), command=lambda: save_to_watchlist(movie))
     add_to_watchlist_button.pack(pady=20)
 
